@@ -18,17 +18,17 @@
   <link href="{% static 'dashboard/assets/plugins/flag-icons/css/flag-icon.min.css' %}" rel="stylesheet"/>
   <link href="{% static 'dashboard/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css' %}" rel="stylesheet" />
   <link href="{% static 'dashboard/assets/plugins/ladda/ladda.min.css' %}" rel="stylesheet" />
-  <link href="{% static 'dashboard/assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
+  {% comment %} <link href="{% static 'dashboard/assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet" /> {% endcomment %}
   <link href="{% static 'dashboard/assets/plugins/daterangepicker/daterangepicker.css' %}" rel="stylesheet" />
 
   <!-- SLEEK CSS -->
   <link id="sleek-css" rel="stylesheet" href="{% static 'dashboard/assets/css/sleek.css' %}" />
 
   <!-- FAVICON -->
-  <link href="{% static 'dashboard/assets/img/favicon.png" rel="shortcut icon" />
+  <link href="{% static 'dashboard/assets/img/favicon.png' %}" rel="shortcut icon" />
 
    <!-- Select2 -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+   {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> {% endcomment %}
 
    <!-- Sweet Alert -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8/dist/sweetalert2.min.js"></script>
@@ -101,7 +101,7 @@
 <script src="{% static 'dashboard/assets/plugins/ladda/spin.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/plugins/ladda/ladda.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/plugins/jquery-mask-input/jquery.mask.min.js' %}"></script>
-<script src="{% static 'dashboard/assets/plugins/select2/js/select2.min.js' %}"></script>
+{% comment %} <script src="{% static 'dashboard/assets/plugins/select2/js/select2.min.js' %}"></script> {% endcomment %}
 <script src="{% static 'dashboard/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js' %}"></script>
 <script src="{% static 'dashboard/assets/plugins/jvectormap/jquery-jvectormap-world-mill.js' %}"></script>
 <script src="{% static 'dashboard/assets/plugins/daterangepicker/moment.min.js' %}"></script>
@@ -138,9 +138,9 @@
 
   <script>
     // init select2
-    $(".select2").select2({ 
+    {% comment %} $(".select2").select2({ 
             width: '100%',
-        });
+        }); {% endcomment %}
   </script>
 
   <script>
