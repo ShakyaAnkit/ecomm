@@ -11,6 +11,8 @@ from django.urls import resolve, reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.views.generic import View, TemplateView, FormView, ListView, CreateView, UpdateView, DeleteView
 
+from .audits import store_audit
+
 from .forms import (
     ChangePasswordForm, 
     LoginForm, 
@@ -33,7 +35,7 @@ from .mixins import (
 
 
 # Create your views here.
-class DashboardView(TemplateView):
+class DashboardView(CustomLoginRequiredMixin, TemplateView):
     template_name = "dashboard/layouts/home.html"
 
 
@@ -56,7 +58,7 @@ class LoginPageView(NonLoginRequiredMixin, FormView):
 
         if 'next' in self.request.GET:
             return redirect(self.request.GET.get('next'))
-        return redirect('dashboard:index')
+        return redirect('dashboard:home')
 
 class LogoutView(CustomLoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):

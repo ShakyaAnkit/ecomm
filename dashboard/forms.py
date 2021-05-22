@@ -17,7 +17,13 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
         user = User.objects.filter(username=username, is_active=True).first()
         if user == None or not user.check_password(password):
-            raise forms.ValidationError("Incorrect username or password")
+            for field in self.fields:
+                self.fields[field].widget.attrs.update({
+                    'class': 'form-control error-input'
+                })
+            raise forms.ValidationError(
+                {"username":"Incorrect username or password"}
+            )
         return self.cleaned_data
 
 class ChangePasswordForm(forms.Form):
