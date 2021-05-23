@@ -20,6 +20,7 @@ from .forms import (
 )
 
 from .mixins import (
+    ActiveMixin,
     BaseMixin, 
     AuditCreateMixin, 
     AuditUpdateMixin, 
@@ -91,10 +92,11 @@ class ChangePasswordView(CustomLoginRequiredMixin, SuccessMessageMixin, FormView
 
 
 # AuditTrail List
-class AuditTrailListView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, ListView):
+class AuditTrailListView(CustomLoginRequiredMixin, ActiveMixin, SuperAdminRequiredMixin, ListView):
     model = AuditTrail
     paginate_by = 100
     template_name = 'dashboard/audittrails/list.html'
+    menu_active = 'audit'
 
 class SampleListView(TemplateView):
     template_name = 'dashboard/sample/list.html'
@@ -104,23 +106,29 @@ class SampleFormView(TemplateView):
 
 
 # Brand CRUD
-class BrandListView(CustomLoginRequiredMixin, NonDeletedListMixin, ListView):
+class BrandListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
     model = Brand
     template_name = "dashboard/brands/list.html"
+    menu_active = 'brand'
 
-class BrandCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, AuditCreateMixin, CreateView):
+
+class BrandCreateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditCreateMixin, CreateView):
     model = Brand
     template_name = "dashboard/brands/form.html"
     form_class = BrandForm
     success_url = reverse_lazy("dashboard:brands-list")
     success_message = "Brand has been Created Successfully"
+    menu_active = 'brand'
 
-class BrandUpdateView(CustomLoginRequiredMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+
+class BrandUpdateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
     model = Brand
     template_name = "dashboard/brands/form.html"
     form_class = BrandForm
     success_url = reverse_lazy("dashboard:brands-list")
     success_message = "Brand has been Updated Successfully"
+    menu_active = 'brand'
+
 
 class BrandDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin, DeleteView):
     model = Brand

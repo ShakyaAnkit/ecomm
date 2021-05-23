@@ -52,6 +52,7 @@ class BaseMixin():
         context = super().get_context_data(*args, **kwargs)
         return context
 
+# Audit 
 class AuditCreateMixin:
     def form_valid(self, form):
         store_audit(request=self.request, instance=form.save(), action='CREATE')
@@ -67,6 +68,7 @@ class AuditDeleteMixin:
         store_audit(request=self.request, instance=self.get_object(), action='DELETE', previous_instance=self.get_object())
         return super().delete(request, *args, **kwargs)
 
+# Form
 class FormControlMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -82,3 +84,13 @@ class GroupRequiredMixin(object):
         if request.user.is_superuser or self.request.user.groups.filter(name__in=self.group_required).exists():
             return super().dispatch(request, *args, **kwargs)
         raise PermissionDenied
+
+class ActiveMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # menu active
+        if hasattr(self, 'menu_active'):
+            context['menu_active'] = self.menu_active
+
+        return context
