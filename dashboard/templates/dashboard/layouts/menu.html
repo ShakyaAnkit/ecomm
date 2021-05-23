@@ -19,7 +19,7 @@
 
             <!-- sidebar menu -->
             <ul class="nav sidebar-inner" id="sidebar-menu">
-                <li class="has-sub">
+                {% comment %} <li class="has-sub">
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
                         data-target="#dashboard" aria-expanded="false" aria-controls="dashboard">
                         <i class="mdi mdi-view-dashboard-outline"></i>
@@ -43,6 +43,12 @@
                             </li>
                         </div>
                     </ul>
+                </li> {% endcomment %}
+                <li {% if menu_active == 'category' %}class="active"{% endif %}>
+                    <a class="sidenav-item-link" href="#">
+                        <i class="fas fa-list"></i>
+                        <span class="nav-text">Category</span>
+                    </a>
                 </li>
                 <li {% if menu_active == 'brand' %}class="active"{% endif %}>
                     <a class="sidenav-item-link" href="{% url 'dashboard:brands-list' %}">

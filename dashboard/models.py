@@ -55,5 +55,17 @@ class Brand(DateTimeModel):
         verbose_name_plural = 'Brands' 
 
 
-  
+class Category(DateTimeModel):
+    title = models.CharField('Title', max_length=255)
+    slug = models.SlugField('Slug')
+    description = models.TextField('Description', null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='categories')
+    image = models.ImageField('Photo', upload_to='images/', null=True, blank=True)
 
+    class Meta: 
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+    
