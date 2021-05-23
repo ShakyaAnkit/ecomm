@@ -4,7 +4,11 @@
 {% block title %}Home{% endblock title %}
 {% block subtitle %}Home{% endblock %}
 
-{% block breadcrumb %}{% endblock breadcrumb %}
+{% block breadcrumb %}
+    {% comment %} <li class="breadcrumb-item">
+    </li> {% endcomment %}
+    {% comment %} <li class="breadcrumb-item" aria-current="page">breadcrumb</li> {% endcomment %}
+{% endblock breadcrumb %}
 {% block content %}
 <!-- Top Statistics -->
 <div class="row">

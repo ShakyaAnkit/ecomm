@@ -98,3 +98,9 @@ class AuditTrailListView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, List
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.order_by('-created_at')
+
+class SampleListView(TemplateView):
+    template_name = 'dashboard/sample/list.html'
+
+class SampleFormView(TemplateView):
+    template_name = 'dashboard/sample/form.html'
