@@ -1,0 +1,56 @@
+{% extends 'dashboard/layouts/base.html' %}
+
+{% load static%}
+
+{% block title %}Form{% endblock title %}
+
+{% block subtitle %}Form{% endblock subtitle %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+   <a href="{% url 'dashboard:home' %}"> Dashboard</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">Audits</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-default">
+            <div class="card-header card-header-border-bottom">
+                <h2>Audits</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive table-responsive-large" style="width:100%; font-size:15px;">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>Who</th>
+                            <th>Action</th>
+                            <th>Item</th>
+                            <th>Item Name</th>
+                            <th>IP</th>
+                            <th>Ago</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for audit in object_list %}
+                        <tr>
+                            <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+                            <td>{{ audit.user }}</td>
+                            <td><span class="badge badge-primary">{{ audit.action }}</span></td>
+                            <td><span class="badge badge-success">{{ audit.model_type }}</span></td>
+                            <td>{{ audit.object_str }}</td>
+                            <td>{{ audit.ip }}</td>
+                            <td>{{ audit.created_at|timesince }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
