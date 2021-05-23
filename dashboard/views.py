@@ -32,6 +32,8 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
+from .models import AuditTrail
+
 
 
 # Create your views here.
@@ -65,3 +67,34 @@ class LogoutView(CustomLoginRequiredMixin, View):
         store_audit(request= self.request, instance=self.request.user, action='LOGOUT')
         logout(request)
         return redirect('dashboard:login')
+
+# Password Reset
+class ChangePasswordView(CustomLoginRequiredMixin, SuccessMessageMixin, FormView):
+    form_class = ChangePasswordForm
+    template_name = "dashboard/auth/change_password.html"
+    success_message = "Password Has Been Changed"
+    success_url = reverse_lazy('dashboard:index')
+
+    def get_form(self):
+        form = super().get_form()
+        form.set_user(self.request.user)
+        return form
+
+    def form_valid(self, form):
+        account = User.objects.filter(username=self.request.user).first()
+        account.set_password(form.cleaned_data.get('confirm_password'))
+        account.save(update_fields=['password'])
+        user = authenticate(username=self.request.user, password=form.cleaned_data.get('confirm_password'))
+        login(self.request, user)
+        return super().form_valid(form)
+
+
+# AuditTrail List
+class AuditTrailListView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, ListView):
+    model = AuditTrail
+    paginate_by = 100
+    template_name = 'dashboard/audittrails/list.html'
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('-created_at')

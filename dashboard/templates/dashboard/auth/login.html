@@ -25,19 +25,9 @@
         <!-- SLEEK CSS -->
         <link id="sleek-css" rel="stylesheet" href="{% static 'dashboard/assets/css/sleek.css' %}" />
 
-
-
         <!-- FAVICON -->
         <link href="{% static 'dashboard/assets/img/favicon.png' %}" rel="shortcut icon" />
 
-        <!--
-    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-  -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
         <style>
             .error{
                 color: red;
@@ -67,25 +57,25 @@
                                         <path class="logo-fill-white" fill="#FFF" d="M11 4v25l8 4V0z" />
                                     </g>
                                 </svg>
-                                <span class="brand-name">Sleek Dashboard</span>
+                                <span class="brand-name">Ecommerce</span>
                             </a>
                         </div>
                     </div>
                     <div class="card-body p-5">
 
-                        <h4 class="text-dark mb-5">Sign In</h4>
-                        <span class="error">{{ form.errors.username }}</span>
-
+                        <!-- <h4 class="text-dark">Sign In</h4> -->
                         <form action="{% url 'dashboard:login' %}" method="POST">
                             {% csrf_token %}
                             
-                            <div class="row">
-                                <div class="form-group col-md-12 mb-4">
-                                    {{ form.username }}
+                            <div class="row" >
+                                {% for field in form %}
+                                <div class="form-group col-md-12 mb-4" >
+                                    <label>{{ field.label }}{% if field.field.required %}* {% endif %}</label>
+                                    {{ field }}
+                                    <span style="color:red;">{{ field.errors|striptags|safe }}</span>
                                 </div>
-                                <div class="form-group col-md-12 ">
-                                    {{ form.password }}
-                                </div>
+                                {% endfor %}  
+        
                                 <div class="col-md-12">
                                     <div class="d-flex my-2 justify-content-between">
                                         <div class="d-inline-block mr-3">
@@ -95,12 +85,8 @@
                                             </label>
 
                                         </div>
-                                        <p><a class="text-blue" href="#">Forgot Your Password?</a></p>
                                     </div>
                                     <button type="submit" class="btn btn-lg btn-primary btn-block mb-4">Sign In</button>
-                                    {% comment %} <p>Don't have an account yet ?
-                                        <a class="text-blue" href="sign-up.html">Sign Up</a>
-                                    </p> {% endcomment %}
                                 </div>
                             </div>
                         </form>
@@ -109,7 +95,7 @@
             </div>
         </div>
         <div class="copyright pl-0">
-            <p class="text-center">&copy; 2018 Copyright Sleek Dashboard Bootstrap Template by
+            <p class="text-center">&copy; 
                 <a class="text-primary" href="http://www.iamabdus.com/" target="_blank">Abdus</a>.
             </p>
         </div>
