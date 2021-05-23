@@ -14,6 +14,7 @@ from django.views.generic import View, TemplateView, FormView, ListView, CreateV
 from .audits import store_audit
 
 from .forms import (
+    BrandForm,
     ChangePasswordForm, 
     LoginForm, 
 )
@@ -32,7 +33,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import AuditTrail
+from .models import AuditTrail, Brand
 
 
 
@@ -94,13 +95,35 @@ class AuditTrailListView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, List
     model = AuditTrail
     paginate_by = 100
     template_name = 'dashboard/audittrails/list.html'
-    
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.order_by('-created_at')
 
 class SampleListView(TemplateView):
     template_name = 'dashboard/sample/list.html'
 
 class SampleFormView(TemplateView):
     template_name = 'dashboard/sample/form.html'
+
+
+# Brand CRUD
+class BrandListView(CustomLoginRequiredMixin, NonDeletedListMixin, ListView):
+    model = Brand
+    template_name = "dashboard/brands/list.html"
+
+class BrandCreateView(CustomLoginRequiredMixin, SuccessMessageMixin, AuditCreateMixin, CreateView):
+    model = Brand
+    template_name = "dashboard/brands/form.html"
+    form_class = BrandForm
+    success_url = reverse_lazy("dashboard:brands-list")
+    success_message = "Brand has been Created Successfully"
+
+class BrandUpdateView(CustomLoginRequiredMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+    model = Brand
+    template_name = "dashboard/brands/form.html"
+    form_class = BrandForm
+    success_url = reverse_lazy("dashboard:brands-list")
+    success_message = "Brand has been Updated Successfully"
+
+class BrandDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin, DeleteView):
+    model = Brand
+    template_name = "dashboard/brands/delete.html"
+    success_url = reverse_lazy("dashboard:brands-list")
+    success_message = "Brand has been Deleted Successfully"

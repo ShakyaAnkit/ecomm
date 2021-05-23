@@ -3,6 +3,7 @@ from django import forms
 from django.utils.html import mark_safe
 
 from .mixins import FormControlMixin 
+from .models import Brand
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -73,3 +74,12 @@ class UserForm(FormControlMixin, forms.ModelForm):
             raise forms.ValidationError("User with this email address already exists")
         
         return email
+
+
+class BrandForm(FormControlMixin, forms.ModelForm):
+
+    class Meta:
+        model = Brand
+        fields = ['name', 'slug', 'image']
+    
+
