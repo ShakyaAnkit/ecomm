@@ -17,6 +17,8 @@ from .forms import (
     BrandForm,
     ChangePasswordForm, 
     LoginForm, 
+    CategoryForm,
+
 )
 
 from .mixins import (
@@ -34,7 +36,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import AuditTrail, Brand
+from .models import AuditTrail, Brand, Category
 
 
 
@@ -135,3 +137,33 @@ class BrandDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin
     template_name = "dashboard/brands/delete.html"
     success_url = reverse_lazy("dashboard:brands-list")
     success_message = "Brand has been Deleted Successfully"
+
+
+# Category
+class CategoryListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+    model = Category
+    template_name = "dashboard/category/list.html"
+    menu_active = 'category'
+
+
+class CategoryCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
+    template_name = "dashboard/category/form.html"
+    form_class = CategoryForm
+    model = Category
+    success_url = reverse_lazy("dashboard:category-list")
+    success_message = "Category Created Successfully"
+    menu_active = 'category'
+
+class CategoryUpdateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+    model = Category
+    template_name = "dashboard/category/form.html"
+    form_class = CategoryForm
+    success_url = reverse_lazy("dashboard:category-list")
+    success_message = "Category has been Updated Successfully"
+    menu_active = 'category'
+
+class CategoryDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin, DeleteView):
+    model = Category
+    template_name = "dashboard/category/delete.html"
+    success_url = reverse_lazy("dashboard:category-list")
+    success_message = "Category has been Deleted Successfully"

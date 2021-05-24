@@ -45,7 +45,7 @@
                     </ul>
                 </li> {% endcomment %}
                 <li {% if menu_active == 'category' %}class="active"{% endif %}>
-                    <a class="sidenav-item-link" href="#">
+                    <a class="sidenav-item-link" href="{% url 'dashboard:category-list' %}">
                         <i class="fas fa-list"></i>
                         <span class="nav-text">Category</span>
                     </a>

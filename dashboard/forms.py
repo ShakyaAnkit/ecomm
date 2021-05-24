@@ -3,7 +3,7 @@ from django import forms
 from django.utils.html import mark_safe
 
 from .mixins import FormControlMixin 
-from .models import Brand
+from .models import Brand, Category
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -83,3 +83,24 @@ class BrandForm(FormControlMixin, forms.ModelForm):
         fields = ['name', 'slug', 'image']
     
 
+class CategoryForm(forms.ModelForm):
+    
+    class Meta:
+        model = Category
+        fields = ['title','slug','description','parent', 'image']
+        # widgets = {
+        #     'description': CKEditorUploadingWidget(),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update(
+                {'class': 'form-control'})
+
+    def clean_slug(self):
+        slug = self.cleaned_data.get('slug')
+        if Category.objects.filter(deleted_at__isnull=True, slug=slug).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Category with this Slug already exists.")
+        else:
+            return slug
