@@ -13,13 +13,18 @@ urlpatterns = [
     path('accounts/login/', views.LoginPageView.as_view(), name='login'),
     path('accounts/logout/',views.LogoutView.as_view(), name='logout'),
 
-     # Brand CRUD
+    # Brand CRUD
     path("brands/", views.BrandListView.as_view(), name="brands-list"),
     path("brand/create/", views.BrandCreateView.as_view(), name="brands-create"),
     path("brand/<int:pk>/update/", views.BrandUpdateView.as_view(), name="brands-update"),
     path("brand/<int:pk>/delete/", views.BrandDeleteView.as_view(), name="brands-delete"),
 
-
     path('dashboard/sample/list', views.SampleListView.as_view(), name='sample-list'),
-    path('dashboard/sample/form', views.SampleFormView.as_view(), name='sample-form')
+    path('dashboard/sample/form', views.SampleFormView.as_view(), name='sample-form'),
+
+    # Category CRUD
+    path('category/', views.CategoryListView.as_view(), name='category-list'),
+    path('category/create/', views.CategoryCreate.as_view(), name='category-create'),
+    path("category/<int:pk>/update/", views.CategoryUpdateView.as_view(), name="category-update"),
+    path("category/<int:pk>/delete/", views.CategoryDeleteView.as_view(), name="category-delete"),
 ]

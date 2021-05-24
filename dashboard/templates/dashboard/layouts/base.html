@@ -31,6 +31,7 @@
         {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> {% endcomment %}
 
         <!-- Sweet Alert -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@8/dist/sweetalert2.min.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8/dist/sweetalert2.min.js"></script>
 
          <!-- Font Awesome FREE Icons -->
@@ -88,6 +89,40 @@
                 0% {right: -100vw;}
                 100% {right: 0;}
             } {% endcomment %}
+        </style>
+
+        <style>
+            .btn-success-space {
+                margin-right: 5px !important;
+            }
+            .btn-success{
+                background-color: #4BB543 !important;
+                color: white !important;
+                border-color: #4BB543 !important;
+            }
+            .badge-success{
+                background-color: #4BB543 !important;
+                color: white !important;
+            }
+            .btn-warning{
+                color: white !important;
+            }
+            .django-ckeditor-widget {
+                display: block !important;
+            }
+        </style>
+        <!-- Sweet Alert Style-->
+        <style>
+            [dir="ltr"] body.layout-default.swal2-shown.swal2-height-auto{
+                height: 100% !important;
+            }
+
+            .swal2-styled {
+                margin: .3125em !important;
+                padding: .625em 2em;
+                box-shadow: none;
+                font-weight: 500;
+            }
         </style>
         {% endblock style %}
     </head>
