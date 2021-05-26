@@ -15,10 +15,10 @@ from .audits import store_audit
 
 from .forms import (
     BrandForm,
-    ChangePasswordForm, 
-    LoginForm, 
     CategoryForm,
-
+    ChangePasswordForm, 
+    CouponForm,
+    LoginForm, 
 )
 
 from .mixins import (
@@ -36,7 +36,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import AuditTrail, Brand, Category
+from .models import Account, AuditTrail, Brand, Category, Coupon
 
 
 
@@ -167,3 +167,97 @@ class CategoryDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMi
     template_name = "dashboard/category/delete.html"
     success_url = reverse_lazy("dashboard:category-list")
     success_message = "Category has been Deleted Successfully"
+
+
+# User CRUD
+class AccountListView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, ListView):
+    model = Account
+    template_name = "dashboard/accounts/list.html"
+    paginate_by = 100
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(username=self.request.user)
+
+# class UserCreateView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, SuccessMessageMixin, AuditCreateMixin, CreateView):
+#     form_class= UserForm
+#     success_message = "User Created Successfully"
+#     success_url = reverse_lazy('dashboard:users-list')
+#     template_name = "dashboard/users/form.html"
+
+#     def get_success_url(self):
+#         return reverse('dashboard:users-password-reset', kwargs={'pk': self.object.pk })
+    
+
+# class UserUpdateView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+#     form_class = UserForm
+#     model = User
+#     success_message = "User Updated Successfully"
+#     success_url = reverse_lazy('dashboard:users-list')
+#     template_name = "dashboard/users/form.html"
+
+# class UserStatusView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, SuccessMessageMixin, View):
+#     model = User
+#     success_message = "User's Status Has Been Changed"
+#     success_url = reverse_lazy('dashboard:users-list')
+
+#     def get(self, request, *args, **kwargs):
+#         user_id = self.kwargs.get('pk')
+#         if user_id:
+#             account = User.objects.filter(pk=user_id).first()
+#             if account.is_active == True:
+#                 account.is_active = False
+#             else:
+#                 account.is_active = True
+#             account.save(update_fields=['is_active'])
+#         return redirect(self.success_url)
+
+
+# # Password Reset
+# class UserPasswordResetView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, SuccessMessageMixin, View):
+#     model = User
+#     success_url = reverse_lazy("dashboard:users-list")
+#     success_message = "Password has been sent to the user's email."
+
+#     def get(self, request, *args, **kwargs):
+#         user_pk = self.kwargs.get('pk')
+#         account = User.objects.filter(pk=user_pk).first()
+#         password = get_random_string(length=6)
+#         account.set_password(password)
+#         msg = (
+#             "You can login into the Dashboard with the following credentials.\n\n" + "Username: " + account.username + " \n" + "Password: " + password
+#         )
+#         send_mail("Dashboard Credentials", msg, conf_settings.EMAIL_HOST_USER, [account.email], fail_silently=True)
+#         account.save(update_fields=["password"])
+
+#         messages.success(self.request, self.success_message)
+#         return redirect(self.success_url)
+
+
+
+# Coupon
+class CouponListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+    model = Coupon
+    template_name = "dashboard/coupons/list.html"
+    menu_active = 'coupon'
+
+class CouponCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
+    template_name = "dashboard/coupons/form.html"
+    form_class = CouponForm
+    model = Coupon
+    success_url = reverse_lazy("dashboard:coupons-list")
+    success_message = "Coupon Created Successfully"
+    menu_active = 'coupon'
+
+class CouponUpdateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+    model = Coupon
+    template_name = "dashboard/coupons/form.html"
+    form_class = CouponForm
+    success_url = reverse_lazy("dashboard:coupons-list")
+    success_message = "Coupon has been Updated Successfully"
+    menu_active = 'Coupon'
+
+class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin, DeleteView):
+    model = Coupon
+    template_name = "dashboard/coupons/delete.html"
+    success_url = reverse_lazy("dashboard:coupons-list")
+    success_message = "Coupon has been Deleted Successfully"

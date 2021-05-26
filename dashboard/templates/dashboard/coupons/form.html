@@ -1,0 +1,43 @@
+{% extends 'dashboard/layouts/base.html' %}
+
+{% load static%}
+
+{% block title %}Form{% endblock title %}
+
+{% block subtitle %}Form{% endblock subtitle %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    Dashboard
+</li>
+<li class="breadcrumb-item" aria-current="page">Coupon Form</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card card-default">
+            <div class="card-header card-header-border-bottom">
+                <h2>Coupon Form </h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% for field in form %}
+                        <div class="form-group col-md-12 mb-4" >
+                            <label>{{ field.label }}{% if field.field.required %}* {% endif %}</label>
+                            {{ field }}
+                            <span style="color:red;">{{ field.errors|striptags|safe }}</span>
+                        </div>
+                        {% endfor %}  
+                        <div class="form-footer pt-4 pt-5 mt-4 border-top" style="text-align:right">
+                            <button type="submit" class="btn btn-primary btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
