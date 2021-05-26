@@ -87,7 +87,7 @@ class CategoryForm(FormControlMixin, forms.ModelForm):
     
     class Meta:
         model = Category
-        fields = ['title','slug','description','parent', 'image']
+        fields = ['title', 'slug', 'description', 'parent', 'image']
     
     def clean_slug(self):
         slug = self.cleaned_data.get('slug')
@@ -100,4 +100,14 @@ class CouponForm(FormControlMixin, forms.ModelForm):
     
     class Meta:
         model = Coupon
-        fields = '__all__'
+        fields = ['user', 'title', 'code', 'valid_from', 'valid_to', 'discount_type', 'discount_percent', 'discount_amount']
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['valid_from'].widget.attrs.update({
+            'class': 'form-control datetimepicker'
+        })
+        self.fields['valid_to'].widget.attrs.update({
+            'class': 'form-control datetimepicker'
+        })
