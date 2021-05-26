@@ -19,12 +19,15 @@ urlpatterns = [
     path("brand/<int:pk>/update/", views.BrandUpdateView.as_view(), name="brands-update"),
     path("brand/<int:pk>/delete/", views.BrandDeleteView.as_view(), name="brands-delete"),
 
-    path('dashboard/sample/list', views.SampleListView.as_view(), name='sample-list'),
-    path('dashboard/sample/form', views.SampleFormView.as_view(), name='sample-form'),
-
     # Category CRUD
-    path('category/', views.CategoryListView.as_view(), name='category-list'),
+    path('categories/', views.CategoryListView.as_view(), name='category-list'),
     path('category/create/', views.CategoryCreate.as_view(), name='category-create'),
     path("category/<int:pk>/update/", views.CategoryUpdateView.as_view(), name="category-update"),
     path("category/<int:pk>/delete/", views.CategoryDeleteView.as_view(), name="category-delete"),
+
+    # Coupon CRUD
+    path('coupons/', views.CouponListView.as_view(), name='coupon-list'),
+    path('coupons/create/', views.CouponCreate.as_view(), name='coupon-create'),
+    path("coupons/<int:pk>/update/", views.CouponUpdateView.as_view(), name="coupon-update"),
+    path("coupons/<int:pk>/delete/", views.CouponDeleteView.as_view(), name="coupon-delete"),
 ]
