@@ -50,12 +50,21 @@
                         <span class="nav-text">Category</span>
                     </a>
                 </li>
+
                 <li {% if menu_active == 'brand' %}class="active"{% endif %}>
                     <a class="sidenav-item-link" href="{% url 'dashboard:brands-list' %}">
                         <i class="fa fa-tag"></i>
                         <span class="nav-text">Brands</span>
                     </a>
                 </li>
+
+                <li {% if menu_active == 'coupon' %}class="active"{% endif %}>
+                    <a class="sidenav-item-link" href="{% url 'dashboard:coupons-list' %}">
+                        <i class="fa fa-ticket"></i>
+                        <span class="nav-text">Coupons</span>
+                    </a>
+                </li>
+
                 <li {% if menu_active == 'audit' %}class="active"{% endif %}>
                     <a class="sidenav-item-link" href="{% url 'dashboard:audittrail-list' %}">
                         <i class="fas fa-history"></i>

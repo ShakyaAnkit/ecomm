@@ -2,13 +2,11 @@
 
 {% load static%}
 
-{% block title %}Form{% endblock title %}
-
-{% block subtitle %}Form{% endblock subtitle %}
+{% block title %}Coupon Form{% endblock title %}
 
 {% block breadcrumb %}
 <li class="breadcrumb-item">
-    Dashboard
+    <a href="{% url 'dashboard:home' %}"> Dashboard</a>
 </li>
 <li class="breadcrumb-item" aria-current="page">Coupon Form</li>
 {% endblock breadcrumb %}

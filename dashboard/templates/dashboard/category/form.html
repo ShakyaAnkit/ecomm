@@ -2,15 +2,13 @@
 
 {% load static%}
 
-{% block title %}Form{% endblock title %}
-
-{% block subtitle %}Form{% endblock subtitle %}
+{% block title %}Category Form{% endblock title %}
 
 {% block breadcrumb %}
 <li class="breadcrumb-item">
-    Dashboard
+    <a href="{% url 'dashboard:home' %}"> Dashboard</a>
 </li>
-<li class="breadcrumb-item" aria-current="page">Sample Form</li>
+<li class="breadcrumb-item" aria-current="page">Category Form</li>
 {% endblock breadcrumb %}
 
 {% block content %}
@@ -18,7 +16,7 @@
     <div class="col-12">
         <div class="card card-default">
             <div class="card-header card-header-border-bottom">
-                <h2>Brand Form </h2>
+                <h2>Category Form </h2>
             </div>
             <div class="card-body">
                 <form method="POST">
