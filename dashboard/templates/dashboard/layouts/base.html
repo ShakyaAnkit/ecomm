@@ -10,7 +10,7 @@
 
         <!-- GOOGLE FONTS -->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet"/>
-        <link href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css" rel="stylesheet" />
+        <link href="https://cdn.materialdesignicons.com/4.4.95/css/materialdesignicons.min.css" rel="stylesheet" />
 
         <!-- PLUGINS CSS STYLE -->
         <link href="{% static 'dashboard/assets/plugins/toaster/toastr.min.css' %}" rel="stylesheet" />
@@ -20,6 +20,10 @@
         <link href="{% static 'dashboard/assets/plugins/ladda/ladda.min.css' %}" rel="stylesheet" />
         <link href="{% static 'dashboard/assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
         <link href="{% static 'dashboard/assets/plugins/daterangepicker/daterangepicker.css' %}" rel="stylesheet" />
+        <link href="{% static 'dashboard/assets/plugins/data-tables/datatables.bootstrap4.min.css' %}" rel='stylesheet'>
+        <link href="{% static 'dashboard/assets/plugins/data-tables/jquery.datatables.min.css' %}" rel='stylesheet'>
+        <link href="{% static 'dashboard/assets/css/_tables.scss' %}">
+        {% comment %} <link href="{% static 'dashboard/assets/options/optionswitch.css' %}" rel="stylesheet"> {% endcomment %}
 
         <!-- SLEEK CSS -->
         <link id="sleek-css" rel="stylesheet" href="{% static 'dashboard/assets/css/sleek.css' %}" />
@@ -95,6 +99,7 @@
             .btn-success-space {
                 margin-right: 5px !important;
             }
+            
             .btn-success{
                 background-color: #4BB543 !important;
                 color: white !important;
@@ -193,6 +198,11 @@
         <script src="{% static 'dashboard/assets/js/date-range.js' %}"></script>
         <script src="{% static 'dashboard/assets/js/map.js' %}"></script>
         <script src="{% static 'dashboard/assets/js/custom.js' %}"></script>
+        <script src="{% static 'dashboard/assets/plugins/data-tables/jquery.datatables.min.js' %}"></script>
+        <script src="{% static 'dashboard/assets/plugins/data-tables/datatables.bootstrap4.min.js' %}"></script>
+        
+        <link href="https://unpkg.com/sleek-dashboard/dist/assets/css/sleek.min.css">
+        {% comment %} <script src="{% static 'dashboard/assets/options/optionswitcher.js' %} "></script> {% endcomment %}
         
         <script>
             // Sweet alert

@@ -99,6 +99,7 @@ class AuditTrailListView(CustomLoginRequiredMixin, ActiveMixin, SuperAdminRequir
     paginate_by = 100
     template_name = 'dashboard/audittrails/list.html'
     menu_active = 'audit'
+    ordering = ['-created_at']
 
 class SampleListView(TemplateView):
     template_name = 'dashboard/sample/list.html'

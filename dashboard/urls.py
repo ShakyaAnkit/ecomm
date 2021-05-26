@@ -19,8 +19,8 @@ urlpatterns = [
     path("brand/<int:pk>/update/", views.BrandUpdateView.as_view(), name="brands-update"),
     path("brand/<int:pk>/delete/", views.BrandDeleteView.as_view(), name="brands-delete"),
 
-    path('dashboard/sample/list', views.SampleListView.as_view(), name='sample-list'),
-    path('dashboard/sample/form', views.SampleFormView.as_view(), name='sample-form'),
+    path('sample/list', views.SampleListView.as_view(), name='sample-list'),
+    path('sample/form', views.SampleFormView.as_view(), name='sample-form'),
 
     # Category CRUD
     path('category/', views.CategoryListView.as_view(), name='category-list'),
