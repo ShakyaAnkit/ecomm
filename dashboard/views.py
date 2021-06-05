@@ -36,7 +36,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import Account, AuditTrail, Brand, Category, Coupon
+from .models import Account, AuditTrail, Brand, Category, Coupon, Product
 
 
 
@@ -262,3 +262,32 @@ class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixi
     template_name = "dashboard/coupons/delete.html"
     success_url = reverse_lazy("dashboard:coupons-list")
     success_message = "Coupon has been Deleted Successfully"
+
+
+# Product
+class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+    model = Product
+    template_name = "dashboard/products/list.html"
+    menu_active = 'product'
+
+# class CouponCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
+#     template_name = "dashboard/coupons/form.html"
+#     form_class = CouponForm
+#     model = Coupon
+#     success_url = reverse_lazy("dashboard:coupons-list")
+#     success_message = "Coupon Created Successfully"
+#     menu_active = 'coupon'
+
+# class CouponUpdateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+#     model = Coupon
+#     template_name = "dashboard/coupons/form.html"
+#     form_class = CouponForm
+#     success_url = reverse_lazy("dashboard:coupons-list")
+#     success_message = "Coupon has been Updated Successfully"
+#     menu_active = 'Coupon'
+
+# class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin, DeleteView):
+#     model = Coupon
+#     template_name = "dashboard/coupons/delete.html"
+#     success_url = reverse_lazy("dashboard:coupons-list")
+#     success_message = "Coupon has been Deleted Successfully"
