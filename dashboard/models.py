@@ -110,3 +110,29 @@ class Coupon(DateTimeModel):
 
     def __str__(self):
         return self.title
+
+
+class Product(DateTimeModel):
+    name = models.CharField("Product Name", max_length=255)
+    slug = models.SlugField("Product Slug", max_length=255)
+    description = models.TextField("Product Description", null=True, blank=True)
+    categories = models.ManyToManyField(Category)
+    brand = models.ForeignKey(
+        Brand,
+        related_name="brand",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
+    vat = models.FloatField("VAT", default=0.0)
+    vat_included = models.BooleanField("VAT Inclusive", default=False)
+    vat_amount = models.FloatField("VAT Amount", default=0.0)
+    discount_percent = models.FloatField("Discount Percentage", default=0.0)
+    discount_amount = models.FloatField("Discounted Amount", default=0.0)
+    default_price = models.FloatField(default=0.0)
+    avg_rating = models.FloatField(default=0.0)
+    is_new = models.BooleanField("New Product", default=True)
+    is_on_sale = models.BooleanField("Product on Sale", default=False)
+    is_coming_soon = models.BooleanField("Coming Soon", default=False)
+    priority = models.PositiveIntegerField(default=0)
+    views = models.PositiveIntegerField(default=0)

@@ -33,4 +33,7 @@ urlpatterns = [
     path('coupons/create/', views.CouponCreate.as_view(), name='coupons-create'),
     path("coupons/<int:pk>/update/", views.CouponUpdateView.as_view(), name="coupons-update"),
     path("coupons/<int:pk>/delete/", views.CouponDeleteView.as_view(), name="coupons-delete"),
+    
+    # Product CRUD
+    path('product/', views.ProductListView.as_view(), name='products-list'),
 ]
