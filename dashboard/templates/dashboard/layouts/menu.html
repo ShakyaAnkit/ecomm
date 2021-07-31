@@ -72,6 +72,13 @@
                     </a>
                 </li>
 
+                <li {% if menu_active == 'account' %} class="active"{% endif %}>
+                    <a class="sidenav-item-link" href="{% url 'dashboard:accounts-list' %}">
+                        <i class="fas fa-user-alt"></i>
+                        <span class="nav-text">Account</span>
+                    </a>
+                </li>
+
                 <li {% if menu_active == 'audit' %}class="active"{% endif %}>
                     <a class="sidenav-item-link" href="{% url 'dashboard:audittrail-list' %}">
                         <i class="fas fa-history"></i>

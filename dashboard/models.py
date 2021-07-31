@@ -85,8 +85,8 @@ class Account(DateTimeModel, User):
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories' 
+        verbose_name = 'Account'
+        verbose_name_plural = 'Accounts' 
 
     def __str__(self):
         return self.username
