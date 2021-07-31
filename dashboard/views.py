@@ -19,6 +19,7 @@ from .forms import (
     ChangePasswordForm, 
     CouponForm,
     LoginForm, 
+    ProductForm
 )
 
 from .mixins import (
@@ -36,7 +37,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import Account, AuditTrail, Brand, Category, Coupon
+from .models import Account, AuditTrail, Brand, Category, Coupon, Product
 
 
 
@@ -266,10 +267,19 @@ class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixi
 
 
 # Product
-# class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
-#     model = Product
-#     template_name = "dashboard/products/list.html"
-#     menu_active = 'product'
+class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+    model = Product
+    template_name = "dashboard/products/list.html"
+    menu_active = 'product'
+
+
+class ProductCreateView(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
+    template_name = "dashboard/products/form.html"
+    form_class = ProductForm
+    success_url = reverse_lazy("dashboard:products-list")
+    success_message = "Product Created Successfully"
+    menu_active = 'product'
+
 
 # class CouponCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
 #     template_name = "dashboard/coupons/form.html"
