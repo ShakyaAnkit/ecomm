@@ -60,10 +60,11 @@ class Brand(DateTimeModel):
 
 class Category(DateTimeModel):
     title = models.CharField('Title', max_length=255)
-    slug = models.SlugField('Slug')
+    slug = models.SlugField('Slug', unique=True)
     description = models.TextField('Description', null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='categories')
     image = models.ImageField('Photo', upload_to='images/', null=True, blank=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["title"]
@@ -72,6 +73,63 @@ class Category(DateTimeModel):
 
     def __str__(self):
         return self.title
+
+class Product(DateTimeModel):
+    title = models.CharField(max_length=256)
+    slug = models.SlugField(unique=True, max_length=256)
+    category = models.ForeignKey(Category, related_name="product_categories", on_delete=models.CASCADE)
+    sub_categories = models.ForeignKey(Category, related_name="product_sub_categories", on_delete=models.CASCADE)
+    description = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["title"]
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products' 
+
+    def __str__(self):
+        return self.title
+    
+class Color(DateTimeModel):
+    name = models.CharField(max_length=32)
+    code = models.CharField(max_length=32)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = 'Color'
+        verbose_name_plural = 'Color' 
+
+    def __str__(self):
+        return self.name
+
+class Size(DateTimeModel):
+    name = models.CharField(max_length=32)
+    code = models.CharField(max_length=32)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = 'Size'
+        verbose_name_plural = 'Size' 
+
+    def __str__(self):
+        return self.name
+
+class Variants(DateTimeModel):
+    title = models.CharField(max_length=256)
+    color = models.ForeignKey(Color, related_name="variant_color", on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, related_name="variant_color", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.FloatField(default=0)
+    sale_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-id"]
+        verbose_name = 'Variant'
+        verbose_name_plural = 'Variants' 
+
+    def __str__(self):
+        return self.title
+
 
 class Account(DateTimeModel, User):
     customer_type = models.CharField(max_length=100, choices=CUSTOMER_CHOICES, default="Registered")
@@ -85,8 +143,8 @@ class Account(DateTimeModel, User):
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name = 'Account'
-        verbose_name_plural = 'Accounts' 
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories' 
 
     def __str__(self):
         return self.username
@@ -112,27 +170,9 @@ class Coupon(DateTimeModel):
         return self.title
 
 
-class Product(DateTimeModel):
-    name = models.CharField("Product Name", max_length=255)
-    slug = models.SlugField("Product Slug", max_length=255)
-    description = models.TextField("Product Description", null=True, blank=True)
-    categories = models.ManyToManyField(Category)
-    brand = models.ForeignKey(
-        Brand,
-        related_name="brand",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-    )
-    vat = models.FloatField("VAT", default=0.0)
-    vat_included = models.BooleanField("VAT Inclusive", default=False)
-    vat_amount = models.FloatField("VAT Amount", default=0.0)
-    discount_percent = models.FloatField("Discount Percentage", default=0.0)
-    discount_amount = models.FloatField("Discounted Amount", default=0.0)
-    default_price = models.FloatField(default=0.0)
-    avg_rating = models.FloatField(default=0.0)
-    is_new = models.BooleanField("New Product", default=True)
-    is_on_sale = models.BooleanField("Product on Sale", default=False)
-    is_coming_soon = models.BooleanField("Coming Soon", default=False)
-    priority = models.PositiveIntegerField(default=0)
-    views = models.PositiveIntegerField(default=0)
+
+
+    
+
+
+

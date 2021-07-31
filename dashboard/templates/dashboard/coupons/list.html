@@ -1,75 +1,16 @@
-{% extends 'dashboard/layouts/base.html' %}
+class Project(DateTimeModel):
+    government = models.ForeignKey(Government,related_name='projects', null=True, on_delete=models.CASCADE) 
+    identifier = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    type_of_expense = models.ForeignKey(ExpenseType, on_delete=models.CASCADE)
 
-{% load static%}
+class ProjectExpenditureTitle(DateTimeModel):
+    project = models.ForeignKey(Project, related_name='project_expenditure', on_delete=models.CASCADE)
+    expenditure_title = models.ForeignKey(ExpenditureTitle, related_name='project_expenditure', on_delete=models.CASCADE)
 
-{% block title %}Coupons{% endblock title %}
+class ExpenditureTitle(DateTimeModel):
+    identifier = models.CharField(max_length=255)
+    secondary_identifier = models.CharField('max_length=255)
+    type_of_expense = models.ForeignKey(ExpenseType,on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
 
-{% block subtitle %}Coupons{% endblock subtitle %}
-
-{% block breadcrumb %}
-<li class="breadcrumb-item">
-   <a href="{% url 'dashboard:home' %}"> Dashboard</a>
-</li>
-<li class="breadcrumb-item" aria-current="page">Coupon</li>
-{% endblock %}
-
-{% block content %}
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card card-default">
-            <div class="card-header card-header-border-bottom" style="width:100%; display:flex; justify-content:flex-end;">
-                <div>
-                    <a href="{% url 'dashboard:coupons-create' %}" class="btn btn-outline-primary">
-                        <i class="fa fa-plus"></i>&nbsp; Add Coupon
-                    </a>
-                </div>
-            </div>
-            <div class="card-body">
-                
-                <table class="table table-responsive table-responsive-large" style="width:100%; font-size:15px;">
-                    <thead>
-                        <tr>
-                            <th>S.No.</th>
-                            <th>User</th>
-                            <th>Title</th>
-                            <th>Code</th>
-                            <th>Valid From</th>
-                            <th>Valid To</th>
-                            <th id="actions">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for coupon in object_list %}
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ coupon.user }}</td>
-                        <td>{{ coupon.title }}</td>
-                        <td>{{ coupon.code }}</td>
-                        <td>{{ coupon.valid_from }}</td>
-                        <td>{{ coupon.valid_to }}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="{% url 'dashboard:coupons-update' coupon.id %}"
-                                    class="btn-sm btn btn-info btn-success-space " data-toggle="tooltip"
-                                    data-original-title="Modify">
-                                    <i class="fa fa-pencil-alt"></i>
-                                </a>
-                                {% if request.user.is_superuser %}
-                                <a href="{% url 'dashboard:coupons-delete' coupon.id %}"
-                                    class="btn-sm btn btn-danger delete-link" data-toggle="tooltip"
-                                    data-original-title='Delete'>
-                                    <i class="far fa-trash-alt"></i>
-                                </a>
-                                {% endif %}
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
