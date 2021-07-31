@@ -36,7 +36,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import Account, AuditTrail, Brand, Category, Coupon, Product
+from .models import Account, AuditTrail, Brand, Category, Coupon
 
 
 
@@ -266,10 +266,10 @@ class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixi
 
 
 # Product
-class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
-    model = Product
-    template_name = "dashboard/products/list.html"
-    menu_active = 'product'
+# class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+#     model = Product
+#     template_name = "dashboard/products/list.html"
+#     menu_active = 'product'
 
 # class CouponCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
 #     template_name = "dashboard/coupons/form.html"
