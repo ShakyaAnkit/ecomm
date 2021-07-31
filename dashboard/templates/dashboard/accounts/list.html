@@ -4,6 +4,54 @@
 
 {% block title %}Accounts{% endblock title %}
 
+{% block style %}
+<style>
+    .expendable-data-table table.dataTable.display tbody tr.odd > .sorting_1, .expendable-data-table table.dataTable.display tbody tr.even > .sorting_1, .expendable-data-table table.dataTable.order-column.stripe tbody tr.odd > .sorting_1, .expendable-data-table table.dataTable.order-column.stripe tbody tr.even > .sorting_1, .expendable-data-table table.dataTable thead .sorting_asc, .expendable-data-table table.dataTable thead .sorting {
+        background-color: transparent;
+        font-weight: 500;
+        color: #1b223c;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .expendable-data-table tr.shown td.details-control::before {
+        content: '-';
+        background-color: #fec400;
+    }
+
+    .expendable-data-table td.details-control::before {
+        position: absolute;
+        content: '+';
+        font-family: 'Courier New', Courier, monospace;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        color: #ffffff;
+        border-radius: 16px;
+        text-align: center;
+        font-weight: bold;
+        background-color: #29cc97;
+
+    }
+
+    table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after{
+        display: none !important;
+    }
+    table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before{
+        display: none !important;
+    }
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 8px 19px;
+    }
+    .sorting{
+        pointer-events: none;
+    }
+</style>
+{% endblock style %}
+
 {% block subtitle %}Accounts{% endblock subtitle %}
 
 {% block breadcrumb %}
@@ -15,59 +63,103 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card card-default">
-            <div class="card-header card-header-border-bottom" style="width:100%; display:flex; justify-content:flex-end;">
-                <div>
-                    <a href="{% url 'dashboard:category-create' %}" class="btn btn-outline-primary">
-                        <i class="fa fa-plus"></i>&nbsp; Add Account
-                    </a>
-                </div>
-            </div>
-            <div class="card-body">
-                
-                <table class="table table-responsive table-responsive-large" style="width:100%; font-size:15px;">
-                    <thead>
-                        <tr>
-                            <th>S.No.</th>
-                            <th>Title</th>
-                            <th>Email</th>
-                            <th>Description</th>
-                            <th>Parent</th>
-                            <th id="actions">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for category in object_list %}
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ category.title }}</td>
-                        <td>{{ category.slug }}</td>
-                        <td>{{ category.description }}</td>
-                        <td>{{ category.parent }}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="{% url 'dashboard:category-update' category.id %}"
-                                    class="btn-sm btn btn-info btn-success-space " data-toggle="tooltip"
-                                    data-original-title="Modify">
-                                    <i class="fa fa-pencil-alt"></i>
-                                </a>
-                                {% if request.user.is_superuser %}
-                                <a href="{% url 'dashboard:category-delete' category.id %}"
-                                    class="btn-sm btn btn-danger delete-link" data-toggle="tooltip"
-                                    data-original-title='Delete'>
-                                    <i class="far fa-trash-alt"></i>
-                                </a>
-                                {% endif %}
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
+	<div class="col-12">
+		<div class="card card-default">
+			<div class="card-body">
+				<div class="expendable-data-table">
+					<table id="expendable-data-table" class="table display" style="width:100%">
+						<thead>
+							<tr>
+								<th></th>
+                                <th>S.N</th>
+								<th>Name</th>
+								<th>Contact Number</th>
+								<th>Gender</th>
+                                <th>Customer Type</td>
+							</tr>
+						</thead>
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+						<tbody>
+                            {% for account in object_list %}
+							<tr>
+								<td 
+                                    class="details-control" 
+                                    data-city="{{ account.city }}" 
+                                    data-address="{{ account.address }}" 
+                                    data-billing_addr="{{ account.billing_addr }}"
+                                    data-shipping_addr="{{ account.shipping_addr }}"
+                                ></td>
+                                <td>{{ forloop.counter }}</td>
+								<td>{{ account.username }}</td>
+								<td>{{ account.contact_no }}</td>
+								<td>{{ account.get_gender_display }}</td>
+                                <td>{{ account.customer_type }}
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 {% endblock %}
+
+{% block script %}
+<script>
+  /* Formatting function for row details - modify as you need */
+  function format (city, address, billing_addr, shipping_addr) {
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+			'<tr>'+
+				'<td>City:</td>'+
+				`<td>${ city }</td>`+
+			'</tr>'+
+			'<tr>'+
+				'<td>Address:</td>'+
+				`<td>${ address }</td>`+
+			'</tr>'+
+            '<tr>'+
+				'<td>Billing Address:</td>'+
+				`<td>${ billing_addr }</td>`+
+			'</tr>'+
+            '<tr>'+
+				'<td>Shipping Address:</td>'+
+				`<td>${ shipping_addr }</td>`+
+			'</tr>'+
+    '</table>';
+  }
+ 
+  $(document).ready(function() {
+    var table = $('#expendable-data-table').DataTable( {
+      "className":      'details-control',
+      "order": [[0, 'asc']],
+      "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
+      "pageLength": 20,
+      "dom": '<"row align-items-center justify-content-between top-information"lf>rt<"row align-items-center justify-content-between bottom-information"ip><"clear">'
+    });
+
+    // Add event listener for opening and closing details
+    $('#expendable-data-table tbody').on('click', 'td.details-control', function () {
+      var tr = $(this).closest('tr');
+      var row = table.row( tr );
+      var city = $(this).data('city')
+      var address = $(this).data('address')
+      var billing_addr = $(this).data('billing_addr')
+      var shipping_addr = $(this).data('shipping_addr')
+      console.log($(this).data('city'))
+ 
+      if ( row.child.isShown() ) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+      }
+      else {
+        // Open this row
+        row.child( format(city, address, billing_addr, shipping_addr) ).show();
+        tr.addClass('shown');
+      }
+    });
+  });
+</script>
+{% endblock script %}

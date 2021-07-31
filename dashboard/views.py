@@ -175,6 +175,7 @@ class AccountListView(CustomLoginRequiredMixin, SuperAdminRequiredMixin, ListVie
     model = Account
     template_name = "dashboard/accounts/list.html"
     paginate_by = 100
+    menu_active = 'account'
 
     def get_queryset(self):
         return super().get_queryset().exclude(username=self.request.user)

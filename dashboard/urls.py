@@ -36,4 +36,7 @@ urlpatterns = [
     
     # Product CRUD
     path('product/', views.ProductListView.as_view(), name='products-list'),
+
+    # Account CRUD
+    path('accounts/', views.AccountListView.as_view(), name='accounts-list'),
 ]
