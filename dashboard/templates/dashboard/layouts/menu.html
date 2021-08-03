@@ -51,6 +51,13 @@
                     </a>
                 </li>
 
+                <li {% if menu_active == 'size' %}class="active"{% endif %}>
+                    <a class="sidenav-item-link" href="{% url 'dashboard:sizes-list' %}">
+                        <i class="fa fa-box" aria-hidden="true"></i>
+                        <span class="nav-text">Size</span>
+                    </a>
+                </li>
+
                 <li {% if menu_active == 'product' %}class="active"{% endif %}>
                     <a class="sidenav-item-link" href="{% url 'dashboard:products-list' %}">
                         <i class="fa fa-box" aria-hidden="true"></i>

@@ -4,7 +4,7 @@ from django.utils.html import mark_safe
 from django.forms import modelformset_factory
 
 from .mixins import FormControlMixin 
-from .models import Brand, Category, Coupon, Product, Variants
+from .models import Brand, Category, Coupon, Product, Size, Variants
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -142,3 +142,22 @@ class VariantForm(FormControlMixin, forms.ModelForm):
         })
 
 VariantFormSet = modelformset_factory(Variants, form=VariantForm, can_delete=True)
+    
+
+class SizeForm(FormControlMixin, forms.ModelForm):
+
+    class Meta:
+        model = Size
+        fields = ['name', 'code']
+
+class ProductForm(FormControlMixin, forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ['title', 'slug', 'category', 'sub_categories', 'description', 'is_active']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_active'].widget.attrs.update({
+            'class': 'is_active'
+        })

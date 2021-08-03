@@ -33,8 +33,14 @@ urlpatterns = [
     path('coupons/create/', views.CouponCreate.as_view(), name='coupons-create'),
     path("coupons/<int:pk>/update/", views.CouponUpdateView.as_view(), name="coupons-update"),
     path("coupons/<int:pk>/delete/", views.CouponDeleteView.as_view(), name="coupons-delete"),
+
+    # Size CRUD
+    path('sizes/', views.SizeListView.as_view(), name='sizes-list'),
+    path('sizes/create/', views.SizeCreateView.as_view(), name='sizes-create'),
+    path('sizes/<int:pk>/update/', views.SizeUpdateView.as_view(), name='sizes-update'),
+    path('sizes/<int:pk>/delete/', views.SizeDeleteView.as_view(), name='sizes-delete'),
     
-        # Account CRUD
+    # Account CRUD
     path('accounts/', views.AccountListView.as_view(), name='accounts-list'),
 
     # Product CRUD

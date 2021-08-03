@@ -19,8 +19,9 @@ from .forms import (
     CategoryForm,
     ChangePasswordForm, 
     CouponForm,
-    LoginForm,
+    LoginForm, 
     ProductForm,
+    SizeForm,
     VariantFormSet, 
 )
 
@@ -39,7 +40,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import Account, AuditTrail, Brand, Category, Coupon, Product, Variants
+from .models import Account, AuditTrail, Brand, Category, Coupon, Product, Size, Variants
 
 
 
@@ -267,8 +268,33 @@ class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixi
     success_url = reverse_lazy("dashboard:coupons-list")
     success_message = "Coupon has been Deleted Successfully"
 
+# Size
+class SizeListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+    model = Size
+    template_name = "dashboard/sizes/list.html"
+    menu_active = 'size'
 
 
+class SizeCreateView(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
+    template_name = "dashboard/sizes/form.html"
+    form_class = SizeForm
+    success_url = reverse_lazy("dashboard:sizes-list")
+    success_message = "Size Created Successfully"
+    menu_active = 'size'
+
+class SizeUpdateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditUpdateMixin, UpdateView):
+    model = Size
+    template_name = "dashboard/sizes/form.html"
+    form_class = SizeForm
+    success_url = reverse_lazy("dashboard:sizes-list")
+    success_message = "Size has been Updated Successfully"
+    menu_active = 'size'
+
+class SizeDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixin, DeleteView):
+    model = Size
+    template_name = "dashboard/sizes/delete.html"
+    success_url = reverse_lazy("dashboard:sizes-list")
+    success_message = "Size has been Deleted Successfully"
 
 # class CouponCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
 #     template_name = "dashboard/coupons/form.html"

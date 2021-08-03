@@ -26,7 +26,11 @@
 <li class="breadcrumb-item">
     <a href="{% url 'dashboard:home' %}"> Dashboard</a>
 </li>
+<<<<<<< HEAD
 <li class="breadcrumb-item" aria-current="page">Product</li>
+=======
+<li class="breadcrumb-item" aria-current="page">Product Form</li>
+>>>>>>> ab13418453aa26140934be43d9a94eb5d1664cfa
 {% endblock breadcrumb %}
 
 {% block content %}
@@ -34,7 +38,11 @@
     <div class="col-12">
         <div class="card card-default">
             <div class="card-header card-header-border-bottom">
+<<<<<<< HEAD
                 <h2>Coupon Form </h2>
+=======
+                <h2>Product Form </h2>
+>>>>>>> ab13418453aa26140934be43d9a94eb5d1664cfa
             </div>
             <div class="card-body">
                 <form method="POST">
@@ -47,6 +55,7 @@
                             <span style="color:red;">{{ field.errors|striptags|safe }}</span>
                         </div>
                         {% endfor %}  
+<<<<<<< HEAD
                         <table class="table form-table table-bordered table-sm">
                             <thead class="text-center">
                                 <tr>
@@ -99,6 +108,8 @@
                             {% endfor %}
                             </tbody>
                         </table>
+=======
+>>>>>>> ab13418453aa26140934be43d9a94eb5d1664cfa
                         <div class="form-footer pt-4 pt-5 mt-4 border-top" style="text-align:right">
                             <button type="submit" class="btn btn-primary btn-default">Submit</button>
                         </div>
@@ -108,6 +119,7 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 {% endblock %}
 
 {% block script %}
@@ -203,3 +215,6 @@ function deleteForm(btn, prefix) {
 </script>
 {% endblock %}    
 
+=======
+{% endblock content %}
+>>>>>>> ab13418453aa26140934be43d9a94eb5d1664cfa
