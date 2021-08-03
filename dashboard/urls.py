@@ -34,9 +34,12 @@ urlpatterns = [
     path("coupons/<int:pk>/update/", views.CouponUpdateView.as_view(), name="coupons-update"),
     path("coupons/<int:pk>/delete/", views.CouponDeleteView.as_view(), name="coupons-delete"),
     
-    # Product CRUD
-    # path('product/', views.ProductListView.as_view(), name='products-list'),
-
-    # Account CRUD
+        # Account CRUD
     path('accounts/', views.AccountListView.as_view(), name='accounts-list'),
+
+    # Product CRUD
+    path('products/', views.ProductListView.as_view(), name='products-list'),
+    path('products/create/', views.ProductCreateView.as_view(), name='products-create'),
+    path('products/<int:pk>/update', views.ProductUpdateView.as_view(), name='products-update'),
+    path('products/<int:pk>/delete', views.ProductDeleteView.as_view(), name='products-delete'),
 ]

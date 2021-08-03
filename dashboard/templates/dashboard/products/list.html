@@ -19,7 +19,7 @@
         <div class="card card-default">
             <div class="card-header card-header-border-bottom" style="width:100%; display:flex; justify-content:flex-end;">
                 <div>
-                    <a href="{% url 'dashboard:category-create' %}" class="btn btn-outline-primary">
+                    <a href="{% url 'dashboard:products-create' %}" class="btn btn-outline-primary">
                         <i class="fa fa-plus"></i>&nbsp; Add Product
                     </a>
                 </div>
@@ -40,19 +40,19 @@
                     <tbody>
                         {% for object in object_list %}
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ object.name }}</td>
+                        <td>{{ object.title }}</td>
                         <td>{{ object.slug }}</td>
                         <td>{{ object.description }}</td>
                         <td>{{ object.category }}</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="{% url 'dashboard:category-update' category.id %}"
+                                <a href="{% url 'dashboard:products-update' object.id %}"
                                     class="btn-sm btn btn-info btn-success-space " data-toggle="tooltip"
                                     data-original-title="Modify">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
                                 {% if request.user.is_superuser %}
-                                <a href="{% url 'dashboard:category-delete' category.id %}"
+                                <a href="{% url 'dashboard:products-delete' object.id %}"
                                     class="btn-sm btn btn-danger delete-link" data-toggle="tooltip"
                                     data-original-title='Delete'>
                                     <i class="far fa-trash-alt"></i>

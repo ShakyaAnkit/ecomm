@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import resolve, reverse, reverse_lazy
@@ -18,7 +19,9 @@ from .forms import (
     CategoryForm,
     ChangePasswordForm, 
     CouponForm,
-    LoginForm, 
+    LoginForm,
+    ProductForm,
+    VariantFormSet, 
 )
 
 from .mixins import (
@@ -36,7 +39,7 @@ from .mixins import (
     SuperAdminRequiredMixin
 )
 
-from .models import Account, AuditTrail, Brand, Category, Coupon
+from .models import Account, AuditTrail, Brand, Category, Coupon, Product, Variants
 
 
 
@@ -265,11 +268,7 @@ class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixi
     success_message = "Coupon has been Deleted Successfully"
 
 
-# Product
-# class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
-#     model = Product
-#     template_name = "dashboard/products/list.html"
-#     menu_active = 'product'
+
 
 # class CouponCreate(CustomLoginRequiredMixin, ActiveMixin, BaseMixin, SuccessMessageMixin, CreateView):
 #     template_name = "dashboard/coupons/form.html"
@@ -292,3 +291,78 @@ class CouponDeleteView(CustomLoginRequiredMixin, AuditDeleteMixin, GetDeleteMixi
 #     template_name = "dashboard/coupons/delete.html"
 #     success_url = reverse_lazy("dashboard:coupons-list")
 #     success_message = "Coupon has been Deleted Successfully"
+
+
+# Product CRUD
+class ProductFormsetMixin:
+    def get_formset(self):
+        if self.request.POST:
+            return VariantFormSet(self.request.POST, queryset= Variants.objects.filter(product=self.kwargs.get('pk'), deleted_at__isnull=True), prefix='variants')
+        else:
+            return VariantFormSet(queryset= Variants.objects.filter(product=self.kwargs.get('pk'), deleted_at__isnull=True), prefix='variants')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data()
+        context['formset'] = self.get_formset()
+        return context
+    
+class ProductListView(CustomLoginRequiredMixin, ActiveMixin, NonDeletedListMixin, ListView):
+    model = Product
+    template_name = "dashboard/products/list.html"
+    menu_active = 'product'
+    paginate_by = 100
+
+    def get_queryset(self):
+        return super().get_queryset().order_by('-created_at')
+
+class ProductCreateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditCreateMixin, ProductFormsetMixin, CreateView):
+    form_class = ProductForm
+    template_name = 'dashboard/products/form.html'
+    success_url = reverse_lazy('dashboard:products-list')
+    menu_active = 'product'
+
+    def form_valid(self, form):
+        context  = self.get_context_data()
+        variants = self.get_formset()
+        with transaction.atomic():
+            self.object = form.save()
+            if variants.is_valid():
+                for variant in variants:
+                    variant.instance.product = self.object
+                    variant.save()
+            else:
+                print(variants.errors)
+
+        return super().form_valid(form)
+
+class ProductUpdateView(CustomLoginRequiredMixin, ActiveMixin, SuccessMessageMixin, AuditUpdateMixin, ProductFormsetMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'dashboard/products/form.html'
+    success_url = reverse_lazy('dashboard:products-list')
+    menu_active = 'product'
+
+    def form_valid(self, form):
+        context  = self.get_context_data()
+        variants = self.get_formset()
+
+        with transaction.atomic():
+            self.object = form.save()
+            if variants.is_valid():
+                mark_form = variants.save(commit=False)
+                # deleting formset
+                for obj in variants.deleted_objects:
+                    obj.delete()
+                   
+                for mark in mark_form:
+                    mark.student = self.object
+                    mark.save()
+              
+            else:
+                print(variants.errors)   
+        return super().form_valid(form)
+
+class ProductDeleteView(CustomLoginRequiredMixin, NonDeletedListMixin, SuccessMessageMixin, GetDeleteMixin, AuditDeleteMixin, DeleteView):
+    model = Product
+    success_message = "Product Deleted Successfully"
+    success_url = reverse_lazy('dashboard:products-list')

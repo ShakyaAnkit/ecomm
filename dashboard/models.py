@@ -115,6 +115,7 @@ class Size(DateTimeModel):
         return self.name
 
 class Variants(DateTimeModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="variants")
     title = models.CharField(max_length=256)
     color = models.ForeignKey(Color, related_name="variant_color", on_delete=models.CASCADE)
     size = models.ForeignKey(Size, related_name="variant_color", on_delete=models.CASCADE)

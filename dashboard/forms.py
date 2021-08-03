@@ -1,9 +1,10 @@
 from django.contrib.auth.models import Group, User
 from django import forms
 from django.utils.html import mark_safe
+from django.forms import modelformset_factory
 
 from .mixins import FormControlMixin 
-from .models import Brand, Category, Coupon
+from .models import Brand, Category, Coupon, Product, Variants
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -111,3 +112,33 @@ class CouponForm(FormControlMixin, forms.ModelForm):
         self.fields['valid_to'].widget.attrs.update({
             'class': 'form-control datetimepicker'
         })
+
+class ProductForm(FormControlMixin, forms.ModelForm):
+    class Meta: 
+        model = Product
+        fields= ['title', 'slug', 'category', 'sub_categories', 'description', 'is_active']      
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+class VariantForm(FormControlMixin, forms.ModelForm):
+    class Meta:
+        model = Variants
+        fields = ['title','color', 'size', 'quantity', 'price', 'sale_count']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control formset-field'
+            })
+
+        self.fields['color'].widget.attrs.update({
+            'class': 'form-control formset-field select2'
+        })
+
+        self.fields['size'].widget.attrs.update({
+            'class': 'form-control formset-field select2'
+        })
+
+VariantFormSet = modelformset_factory(Variants, form=VariantForm, can_delete=True)
