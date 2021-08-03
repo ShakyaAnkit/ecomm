@@ -3,7 +3,7 @@ from django import forms
 from django.utils.html import mark_safe
 
 from .mixins import FormControlMixin 
-from .models import Brand, Category, Coupon
+from .models import Brand, Category, Coupon, Product, Size
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -110,4 +110,23 @@ class CouponForm(FormControlMixin, forms.ModelForm):
         })
         self.fields['valid_to'].widget.attrs.update({
             'class': 'form-control datetimepicker'
+        })
+    
+
+class SizeForm(FormControlMixin, forms.ModelForm):
+
+    class Meta:
+        model = Size
+        fields = ['name', 'code']
+
+class ProductForm(FormControlMixin, forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ['title', 'slug', 'category', 'sub_categories', 'description', 'is_active']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_active'].widget.attrs.update({
+            'class': 'is_active'
         })
